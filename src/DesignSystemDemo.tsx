@@ -1,117 +1,231 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-const colors = [
-  { name: "Fundo principal", className: "bg-zinc-950" },
-  { name: "Surface/Cards", className: "bg-zinc-900" },
-  { name: "Destaque/Primária", className: "bg-green-600" },
-  { name: "Destaque/Primária (claro)", className: "bg-green-500" },
-  { name: "Alerta de Peso", className: "bg-red-500" },
-  { name: "Texto principal", className: "text-zinc-100 bg-zinc-950" },
-  { name: "Texto secundário", className: "text-zinc-400 bg-zinc-950" },
-  { name: "Texto alerta", className: "text-red-500 bg-zinc-950" },
-];
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function getCurrentPath() {
+  if (typeof window === "undefined") {
+    return "/";
+  }
+
+  return window.location.pathname;
+}
+
+function navigateTo(path: string) {
+  window.history.pushState({}, "", path);
+  window.dispatchEvent(new PopStateEvent("popstate"));
+}
 
 export const DesignSystemDemo: React.FC = () => {
-  const [peso, setPeso] = useState(70);
-  const [modo, setModo] = useState<"Gi" | "No-Gi">("Gi");
+  const [pathname, setPathname] = useState(getCurrentPath);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [touched, setTouched] = useState(false);
+
+  useEffect(() => {
+    const handlePopState = () => setPathname(getCurrentPath());
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const isEmailValid = useMemo(() => emailRegex.test(email), [email]);
+  const isLoginEnabled = isEmailValid && password.trim().length >= 6;
+  const showEmailError = touched && email.length > 0 && !isEmailValid;
+
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setTouched(true);
+
+    if (!isLoginEnabled) {
+      return;
+    }
+
+    navigateTo("/app/dashboard");
+  };
+
+  if (pathname === "/app/dashboard") {
+    return (
+      <main className="min-h-screen bg-zinc-950 text-zinc-100 px-4 py-6">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
+          <section className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl shadow-black/30">
+            <p className="text-sm uppercase tracking-[0.24em] text-zinc-400">
+              TatameStats
+            </p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">
+              Dashboard do atleta
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
+              Visão rápida do diário de tatame, com foco em consistência,
+              evolução técnica e controle do peso para competições.
+            </p>
+          </section>
+
+          <section className="grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+              <p className="text-sm text-zinc-400">Treinos do mês</p>
+              <p className="mt-3 text-4xl font-bold text-green-500">15</p>
+            </div>
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+              <p className="text-sm text-zinc-400">Finalizações</p>
+              <p className="mt-3 text-4xl font-bold text-green-500">38%</p>
+            </div>
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+              <p className="text-sm text-zinc-400">Peso atual</p>
+              <p className="mt-3 text-4xl font-bold text-red-500">98.7kg</p>
+            </div>
+          </section>
+
+          <section className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">Resumo do mês</h2>
+            <p className="mt-2 text-sm leading-6 text-zinc-400">
+              Você registrou{" "}
+              <span className="font-semibold text-zinc-100">15 treinos</span>,
+              manteve o peso dentro da faixa para Super Pesado e acumulou
+              evolução nos rolas com acompanhamento centralizado.
+            </p>
+          </section>
+
+          <button
+            type="button"
+            onClick={() => navigateTo("/")}
+            className="rounded-xl border border-green-600 px-4 py-3 text-sm font-semibold text-green-500 transition active:scale-[0.99]"
+          >
+            Voltar para a área pública
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 p-4 flex flex-col gap-8 max-w-xl mx-auto">
-      {/* Paleta de Cores */}
-      <section>
-        <h2 className="text-xl font-bold mb-4">Paleta de Cores</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {colors.map((color) => (
-            <div key={color.name} className="flex flex-col items-center gap-2">
-              <div
-                className={`w-14 h-14 rounded-lg border border-zinc-800 ${color.className} flex items-center justify-center`}
-              ></div>
-              <span className="text-xs text-zinc-400 text-center">
-                {color.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+    <main className="min-h-screen bg-zinc-950 px-4 py-6 text-zinc-100">
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
+        <section className="rounded-3xl border border-zinc-800 bg-zinc-900/80 p-6 shadow-2xl shadow-black/30">
+          <p className="text-sm uppercase tracking-[0.24em] text-green-500">
+            TatameStats
+          </p>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Diário de tatame para atletas de BJJ
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-zinc-400 sm:text-base">
+            Registre treinos, acompanhe finalizações e monitore peso de forma
+            rápida, privada e pensada para o pós-treino imediato.
+          </p>
+        </section>
 
-      {/* Tipografia */}
-      <section className="bg-zinc-900 rounded-xl p-4">
-        <h2 className="text-xl font-bold mb-4">Tipografia</h2>
-        <h1 className="text-2xl font-bold mb-2">
-          Título H1 - text-2xl font-bold
-        </h1>
-        <h2 className="text-xl font-bold mb-2">
-          Título H2 - text-xl font-bold
-        </h2>
-        <h3 className="text-lg font-medium mb-2">
-          Título H3 - text-lg font-medium
-        </h3>
-        <p className="text-base mb-1">Parágrafo padrão - text-base</p>
-        <p className="text-sm text-zinc-400">
-          Texto secundário - text-sm text-zinc-400
-        </p>
-      </section>
+        <section className="grid gap-4 md:grid-cols-2">
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">Resumo</h2>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              O TatameStats é uma aplicação web em React (SPA) para praticantes
+              e competidores de Jiu-Jitsu Brasileiro registrarem rendimento,
+              finalizações e flutuações de peso em um só lugar.
+            </p>
+          </article>
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">Problema</h2>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              Registros espalhados e memória cansada após o treino fazem com que
+              detalhes importantes se percam. Para quem compete, enxergar o peso
+              com clareza é tão importante quanto medir a técnica.
+            </p>
+          </article>
+        </section>
 
-      {/* Botões */}
-      <section>
-        <h2 className="text-xl font-bold mb-4">Botões</h2>
-        <div className="flex flex-col gap-4">
-          <button className="bg-green-600 text-white rounded-lg p-4 w-full font-bold active:scale-95 transition">
-            Primário
-          </button>
-          <button className="border border-green-600 text-green-600 rounded-lg p-4 w-full font-bold bg-transparent active:scale-95 transition">
-            Secundário
-          </button>
-          <div className="flex gap-4 justify-center mt-2">
-            <button className="w-16 h-16 bg-green-600 text-white text-3xl rounded-full flex items-center justify-center active:scale-95 transition">
-              +
-            </button>
-            <button className="w-16 h-16 bg-zinc-900 text-green-600 text-3xl rounded-full border border-green-600 flex items-center justify-center active:scale-95 transition">
-              -
-            </button>
-          </div>
-        </div>
-      </section>
+        <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">
+              Proposta & não-objetivos
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              O sistema oferece um diário de tatame com entrada rápida de dados,
+              focado em usabilidade mobile fluida nos minutos logo após sair do
+              tatame. Não buscamos rede social, vídeo instrucional ou backend
+              complexo de gestão financeira.
+            </p>
+          </article>
 
-      {/* Inputs e Controles */}
-      <section>
-        <h2 className="text-xl font-bold mb-4">Inputs e Controles</h2>
-        <div className="flex flex-col gap-4">
-          <input
-            type="number"
-            value={peso}
-            onChange={(e) => setPeso(Number(e.target.value))}
-            className="bg-zinc-800 text-white rounded-lg p-4 w-full outline-none focus:ring-2 focus:ring-green-600 transition"
-            placeholder="Peso (kg)"
-          />
-          <div className="flex items-center gap-4">
-            <span className="text-zinc-400">Modo:</span>
-            <button
-              className={`px-4 py-2 rounded-full font-bold transition ${modo === "Gi" ? "bg-green-600 text-white" : "bg-zinc-800 text-zinc-400 border border-zinc-700"}`}
-              onClick={() => setModo("Gi")}
-            >
-              Gi
-            </button>
-            <button
-              className={`px-4 py-2 rounded-full font-bold transition ${modo === "No-Gi" ? "bg-green-600 text-white" : "bg-zinc-800 text-zinc-400 border border-zinc-700"}`}
-              onClick={() => setModo("No-Gi")}
-            >
-              No-Gi
-            </button>
-          </div>
-        </div>
-      </section>
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">Persona</h2>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              João, 21 anos, estudante universitário e competidor amador, treina
+              às 6h antes da faculdade e precisa manter-se entre 98 e 99kg na
+              categoria Super Pesado.
+            </p>
+          </article>
+        </section>
 
-      {/* Card Exemplo */}
-      <section>
-        <h2 className="text-xl font-bold mb-4">Componente Card</h2>
-        <div className="bg-zinc-900 rounded-2xl p-6 flex flex-col items-center gap-2 shadow-lg w-full max-w-xs mx-auto">
-          <span className="text-zinc-400 text-sm">Resumo do Mês</span>
-          <span className="text-5xl font-bold text-green-500">15</span>
-          <span className="text-zinc-100 font-medium">Treinos</span>
-        </div>
-      </section>
-    </div>
+        <section className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+          <h2 className="text-xl font-bold text-white">Dor principal</h2>
+          <p className="mt-3 text-sm leading-6 text-zinc-400">
+            Exausto após o treino, João esquece com quem rolou, quais posições
+            aplicou e se o peso está oscilando de forma que prejudique sua
+            performance.
+          </p>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">
+              MUST-01: autenticação
+            </h2>
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-zinc-400">
+              <li>Criação de conta com e-mail e senha.</li>
+              <li>Validação de formato de e-mail no cliente.</li>
+              <li>
+                Redirecionamento automático para /app/dashboard após login.
+              </li>
+            </ul>
+          </article>
+
+          <article className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="text-xl font-bold text-white">Acesso rápido</h2>
+            <form className="mt-4 space-y-4" onSubmit={handleLogin}>
+              <div>
+                <label className="mb-2 block text-sm font-medium text-zinc-300">
+                  E-mail
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  onBlur={() => setTouched(true)}
+                  className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-600 focus:ring-2 focus:ring-green-600/30"
+                  placeholder="joao@tatamestats.com"
+                />
+                {showEmailError ? (
+                  <p className="mt-2 text-sm text-red-500">
+                    Informe um e-mail válido.
+                  </p>
+                ) : null}
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-zinc-300">
+                  Senha
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  onBlur={() => setTouched(true)}
+                  className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-green-600 focus:ring-2 focus:ring-green-600/30"
+                  placeholder="Mínimo de 6 caracteres"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full rounded-xl bg-green-600 px-4 py-4 font-semibold text-white transition active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-green-600/40"
+                disabled={!isLoginEnabled}
+              >
+                Entrar e ir para o dashboard
+              </button>
+            </form>
+          </article>
+        </section>
+      </div>
+    </main>
   );
 };
 
