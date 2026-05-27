@@ -5,6 +5,7 @@ import { SectionCard } from "../components/SectionCard";
 import { TextField } from "../components/TextField";
 import { TopBar } from "../components/TopBar";
 import { navigateTo } from "../lib/navigation";
+import { setAuthenticated } from "../lib/auth";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -30,6 +31,7 @@ export function LoginPage() {
       return;
     }
 
+    setAuthenticated(true);
     navigateTo("/app/dashboard");
   };
 
@@ -82,7 +84,7 @@ export function LoginPage() {
             </button>
             <button
               className="text-left text-zinc-400 hover:text-white"
-              onClick={() => navigateTo("/register")}
+              onClick={() => navigateTo("/cadastro")}
               type="button"
             >
               Criar conta

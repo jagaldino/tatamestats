@@ -5,6 +5,7 @@ import { SectionCard } from "../components/SectionCard";
 import { TextField } from "../components/TextField";
 import { TopBar } from "../components/TopBar";
 import { navigateTo } from "../lib/navigation";
+import { setAuthenticated } from "../lib/auth";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -41,6 +42,7 @@ export function RegisterPage() {
       return;
     }
 
+    setAuthenticated(true);
     navigateTo("/app/dashboard");
   };
 

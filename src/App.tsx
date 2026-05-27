@@ -1,30 +1,77 @@
-import { DashboardPage } from "./pages/DashboardPage";
-import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
+import { useMemo } from "react";
+import { usePathname } from "./hooks/usePathname";
+import { navigateTo } from "./lib/navigation";
+import { isAuthenticated } from "./lib/auth";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
-import { usePathname } from "./hooks/usePathname";
+import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { AppLayout } from "./pages/app/AppLayout";
+import { DashboardPage } from "./pages/app/DashboardPage";
+import { WorkoutsPage } from "./pages/app/WorkoutsPage";
+import { NewWorkoutPage } from "./pages/app/NewWorkoutPage";
+import { WorkoutDetailsPage } from "./pages/app/WorkoutDetailsPage";
+import { ProfilePage } from "./pages/app/ProfilePage";
+
+function normalizePath(pathname: string) {
+  return pathname.length > 1 && pathname.endsWith("/")
+    ? pathname.slice(0, -1)
+    : pathname;
+}
 
 function App() {
-  const pathname = usePathname();
+  const pathname = normalizePath(usePathname());
 
-  if (pathname === "/login") {
-    return <LoginPage />;
-  }
+  const route = useMemo(() => {
+    if (pathname === "/") {
+      return <HomePage />;
+    }
 
-  if (pathname === "/register") {
-    return <RegisterPage />;
-  }
+    if (pathname === "/login") {
+      return <LoginPage />;
+    }
 
-  if (pathname === "/forgot-password") {
-    return <ForgotPasswordPage />;
-  }
+    if (pathname === "/cadastro" || pathname === "/register") {
+      return <RegisterPage />;
+    }
 
-  if (pathname === "/app/dashboard") {
-    return <DashboardPage />;
-  }
+    if (pathname === "/esqueci-a-senha" || pathname === "/forgot-password") {
+      return <ForgotPasswordPage />;
+    }
 
-  return <HomePage />;
+    if (pathname === "/404") {
+      return <NotFoundPage />;
+    }
+
+    if (pathname.startsWith("/app")) {
+      if (!isAuthenticated()) {
+        navigateTo("/login");
+        return null;
+      }
+
+      return (
+        <AppLayout>
+          {pathname === "/app" || pathname === "/app/dashboard" ? (
+            <DashboardPage />
+          ) : null}
+          {pathname === "/app/treinos" ? <WorkoutsPage /> : null}
+          {pathname === "/app/treinos/novo" ? <NewWorkoutPage /> : null}
+          {pathname.startsWith("/app/treinos/") &&
+          pathname !== "/app/treinos/novo" ? (
+            <WorkoutDetailsPage
+              workoutId={pathname.replace("/app/treinos/", "")}
+            />
+          ) : null}
+          {pathname === "/app/perfil" ? <ProfilePage /> : null}
+        </AppLayout>
+      );
+    }
+
+    return <NotFoundPage />;
+  }, [pathname]);
+
+  return route;
 }
 
 export default App;
