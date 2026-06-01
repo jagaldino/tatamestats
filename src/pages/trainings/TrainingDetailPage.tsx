@@ -6,6 +6,7 @@ import {
   useTrainingStore,
 } from "@/domains/training/store/useTrainingStore";
 import { formatDateBR } from "@/shared/utils/date";
+import { useState } from "react";
 
 export function TrainingDetailPage() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export function TrainingDetailPage() {
     selectTrainingById(state, trainingId),
   );
   const removeTraining = useTrainingStore((state) => state.removeTraining);
+  const [copyMsg, setCopyMsg] = useState<string | null>(null);
 
   if (!training || training.userId !== currentUserId) {
     return (
@@ -87,12 +89,53 @@ export function TrainingDetailPage() {
           </Link>
           <button
             type="button"
+            onClick={async () => {
+              const shareText = `Treino: ${training.type}\nData: ${formatDateBR(training.date)}\nDuração: ${training.durationMinutes} min\nFinalizações aplicadas: ${training.submissionsApplied}\nFinalizações sofridas: ${training.submissionsReceived}`;
+
+              if (navigator.share) {
+                try {
+                  await navigator.share({
+                    title: `Treino — ${training.type}`,
+                    text: shareText,
+                  });
+                } catch (err) {
+                  // usuário cancelou ou ocorreu erro; não bloquear
+                }
+                return;
+              }
+
+              // Fallback: copiar para a área de transferência
+              try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  await navigator.clipboard.writeText(shareText);
+                  setCopyMsg("Conteúdo copiado para a área de transferência");
+                } else {
+                  // última alternativa: prompt com o texto para o usuário copiar manualmente
+                  // eslint-disable-next-line no-alert
+                  window.prompt("Copie o conteúdo abaixo:", shareText);
+                }
+              } catch (err) {
+                // eslint-disable-next-line no-alert
+                window.alert(
+                  "Não foi possível compartilhar este treino neste navegador.",
+                );
+              }
+            }}
+            className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-medium text-slate-950"
+          >
+            Compartilhar treino
+          </button>
+          <button
+            type="button"
             onClick={handleDelete}
             className="rounded-full bg-rose-600 px-4 py-2 text-sm font-medium text-white"
           >
             Excluir
           </button>
         </div>
+        {copyMsg ? (
+          <p className="mt-2 text-sm text-slate-500">{copyMsg}</p>
+        ) : null}
       </section>
     </div>
   );
