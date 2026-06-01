@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply min-h-screen bg-brand-50 text-brand-900 antialiased;
+}
+
+#root {
+  @apply min-h-screen;
+}
