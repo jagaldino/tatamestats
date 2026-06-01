@@ -41,6 +41,11 @@ export const selectUserTrainings = (state: TrainingState, userId: EntityId) =>
     .filter((training) => training.userId === userId)
     .sort((a, b) => b.date.localeCompare(a.date));
 
+export const selectTrainingById = (
+  state: TrainingState,
+  trainingId: EntityId,
+) => state.trainingsById[trainingId] ?? null;
+
 export const selectMonthlyTrainingsCount = (
   state: TrainingState,
   userId: EntityId,

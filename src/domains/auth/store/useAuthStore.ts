@@ -20,6 +20,10 @@ type AuthState = {
 type AuthActions = {
   register: (input: RegisterInput) => AuthResult;
   login: (input: LoginInput) => AuthResult;
+  updateUser: (
+    userId: EntityId,
+    data: Partial<Pick<User, "name" | "email" | "password">>,
+  ) => AuthResult;
   logout: () => void;
 };
 
@@ -101,6 +105,48 @@ export const useAuthStore = create<AuthStore>()(
         return {
           ok: true,
           userId: user.id,
+        };
+      },
+      updateUser: (userId, data) => {
+        const currentUser = get().usersById[userId];
+
+        if (!currentUser) {
+          return {
+            ok: false,
+            message: "Usuario nao encontrado.",
+          };
+        }
+
+        const nextEmail = data.email
+          ? normalizeEmail(data.email)
+          : currentUser.email;
+        const conflictingUser = Object.values(get().usersById).find(
+          (user) =>
+            user.id !== userId && normalizeEmail(user.email) === nextEmail,
+        );
+
+        if (conflictingUser) {
+          return {
+            ok: false,
+            message: "Email ja cadastrado.",
+          };
+        }
+
+        set((state) => ({
+          usersById: {
+            ...state.usersById,
+            [userId]: {
+              ...currentUser,
+              name: data.name?.trim() ?? currentUser.name,
+              email: nextEmail,
+              password: data.password ?? currentUser.password,
+            },
+          },
+        }));
+
+        return {
+          ok: true,
+          userId,
         };
       },
       logout: () =>

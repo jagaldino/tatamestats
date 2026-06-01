@@ -4,8 +4,14 @@ import { PublicLayout } from "@/app/layouts/PublicLayout";
 import { RequireAuth } from "@/app/router/guards/RequireAuth";
 import { RequireGuest } from "@/app/router/guards/RequireGuest";
 import { PATHS } from "@/app/router/paths";
+import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
+import { NewTrainingPage } from "@/pages/trainings/NewTrainingPage";
+import { TrainingDetailPage } from "@/pages/trainings/TrainingDetailPage";
+import { TrainingEditPage } from "@/pages/trainings/TrainingEditPage";
+import { TrainingHistoryPage } from "@/pages/trainings/TrainingHistoryPage";
+import { ProfilePage } from "@/pages/profile/ProfilePage";
 import { ScreenPlaceholder } from "@/shared/ui/organisms/ScreenPlaceholder";
 
 export const router = createBrowserRouter([
@@ -39,27 +45,27 @@ export const router = createBrowserRouter([
         children: [
           {
             path: PATHS.app.dashboard,
-            element: <ScreenPlaceholder title="Dashboard em construcao" />,
+            element: <DashboardPage />,
           },
           {
             path: PATHS.app.trainings,
-            element: <ScreenPlaceholder title="Historico de treinos" />,
+            element: <TrainingHistoryPage />,
           },
           {
             path: PATHS.app.trainingNew,
-            element: <ScreenPlaceholder title="Cadastro de treino" />,
+            element: <NewTrainingPage />,
           },
           {
             path: PATHS.app.trainingDetail,
-            element: <ScreenPlaceholder title="Detalhes do treino" />,
+            element: <TrainingDetailPage />,
           },
           {
             path: PATHS.app.trainingEdit,
-            element: <ScreenPlaceholder title="Edicao do treino" />,
+            element: <TrainingEditPage />,
           },
           {
             path: PATHS.app.profile,
-            element: <ScreenPlaceholder title="Perfil do atleta" />,
+            element: <ProfilePage />,
           },
           {
             path: PATHS.app.weight,
