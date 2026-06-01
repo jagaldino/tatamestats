@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "@/app/router/paths";
+import { BackButton } from "@/shared/ui/BackButton";
 import {
   selectCurrentUser,
   useAuthStore,
@@ -21,15 +22,24 @@ export function DashboardPage() {
   return (
     <div className="space-y-5 pb-6">
       <section className="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-5 text-white shadow-xl shadow-slate-900/10">
-        <p className="text-xs uppercase tracking-[0.24em] text-emerald-300">
-          Visao geral
-        </p>
-        <h2 className="mt-2 text-2xl font-semibold leading-tight">
-          Bem-vindo{currentUser?.name ? `, ${currentUser.name}` : ""}
-        </h2>
-        <p className="mt-2 max-w-sm text-sm text-slate-300">
-          Acompanhe seus treinos, seu peso e seu status atual sem sair do app.
-        </p>
+        <div className="flex items-start gap-3">
+          <BackButton
+            fallbackPath={PATHS.app.trainings}
+            className="bg-white/5 border-transparent text-white"
+          />
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-emerald-300">
+              Visao geral
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight">
+              Bem-vindo{currentUser?.name ? `, ${currentUser.name}` : ""}
+            </h2>
+            <p className="mt-2 max-w-sm text-sm text-slate-300">
+              Acompanhe seus treinos, seu peso e seu status atual sem sair do
+              app.
+            </p>
+          </div>
+        </div>
       </section>
 
       {!hasData ? <EmptyDashboardState /> : null}

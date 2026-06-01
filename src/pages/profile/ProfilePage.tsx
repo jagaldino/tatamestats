@@ -1,4 +1,6 @@
 import { FormEvent, useMemo, useState } from "react";
+import { BackButton } from "@/shared/ui/BackButton";
+import { PATHS } from "@/app/router/paths";
 import { useAuthStore } from "@/domains/auth/store/useAuthStore";
 import {
   selectProfileByUserId,
@@ -65,6 +67,9 @@ export function ProfilePage() {
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="mb-3">
+        <BackButton fallbackPath={PATHS.app.dashboard} />
+      </div>
       <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
         Perfil
       </p>

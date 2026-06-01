@@ -7,6 +7,7 @@ import {
 } from "@/domains/training/store/useTrainingStore";
 import { formatDateBR } from "@/shared/utils/date";
 import { useState } from "react";
+import { BackButton } from "@/shared/ui/BackButton";
 
 export function TrainingDetailPage() {
   const navigate = useNavigate();
@@ -46,6 +47,9 @@ export function TrainingDetailPage() {
   return (
     <div className="space-y-4 pb-6">
       <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mb-4">
+          <BackButton fallbackPath={PATHS.app.trainings} />
+        </div>
         <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
           Detalhe do treino
         </p>

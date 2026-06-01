@@ -8,6 +8,7 @@ import {
 } from "@/domains/training/store/useTrainingStore";
 import { TrainingForm } from "@/pages/trainings/components/TrainingForm";
 import type { TrainingFormValues } from "@/pages/trainings/types";
+import { BackButton } from "@/shared/ui/BackButton";
 
 export function TrainingEditPage() {
   const navigate = useNavigate();
@@ -86,15 +87,34 @@ export function TrainingEditPage() {
   };
 
   return (
-    <TrainingForm
-      title="Editar treino"
-      subtitle="Atualize os dados da sessao salva no app."
-      submitLabel="Salvar alterações"
-      values={values}
-      onChange={setValues}
-      onSubmit={handleSubmit}
-      error={error}
-      readOnlyDate={false}
-    />
+    <div className="space-y-4 pb-6">
+      <div className="flex items-center gap-3">
+        <BackButton
+          fallbackPath={PATHS.app.trainingDetail.replace(
+            ":trainingId",
+            training.id,
+          )}
+        />
+        <div>
+          <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
+            Editar
+          </p>
+          <h2 className="text-2xl font-semibold text-slate-950">
+            Editar treino
+          </h2>
+        </div>
+      </div>
+
+      <TrainingForm
+        title="Editar treino"
+        subtitle="Atualize os dados da sessao salva no app."
+        submitLabel="Salvar alterações"
+        values={values}
+        onChange={setValues}
+        onSubmit={handleSubmit}
+        error={error}
+        readOnlyDate={false}
+      />
+    </div>
   );
 }

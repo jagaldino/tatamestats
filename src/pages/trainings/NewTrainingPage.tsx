@@ -1,5 +1,6 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BackButton } from "@/shared/ui/BackButton";
 import { PATHS } from "@/app/router/paths";
 import { useAuthStore } from "@/domains/auth/store/useAuthStore";
 import { useTrainingStore } from "@/domains/training/store/useTrainingStore";
@@ -63,15 +64,27 @@ export function NewTrainingPage() {
   };
 
   return (
-    <TrainingForm
-      title="Novo treino"
-      submitLabel="Salvar treino"
-      subtitle="Registre a sessao com data automatica e acompanhe a evolucao."
-      values={values}
-      onChange={setValues}
-      onSubmit={handleSubmit}
-      error={error}
-      readOnlyDate
-    />
+    <div className="space-y-4 pb-6">
+      <div className="flex items-center gap-3">
+        <BackButton fallbackPath={PATHS.app.trainings} />
+        <div>
+          <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
+            Novo
+          </p>
+          <h2 className="text-2xl font-semibold text-slate-950">Novo treino</h2>
+        </div>
+      </div>
+
+      <TrainingForm
+        title="Novo treino"
+        submitLabel="Salvar treino"
+        subtitle="Registre a sessao com data automatica e acompanhe a evolucao."
+        values={values}
+        onChange={setValues}
+        onSubmit={handleSubmit}
+        error={error}
+        readOnlyDate
+      />
+    </div>
   );
 }
