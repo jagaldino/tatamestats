@@ -34,25 +34,25 @@ export function ProfilePage() {
     event.preventDefault();
 
     if (!currentUserId) {
-      setError("Usuario nao autenticado.");
+      setError("Usuário não autenticado.");
       return;
     }
 
     const weightValue = Number(currentWeight);
 
     if (name.trim().length < 2) {
-      setError("Informe um nome valido.");
+      setError("Informe um nome válido.");
       return;
     }
 
     if (Number.isNaN(weightValue) || weightValue <= 0) {
-      setError("Informe um peso valido.");
+      setError("Informe um peso válido.");
       return;
     }
 
     const userResult = updateUser(currentUserId, { name: name.trim() });
     if (!userResult.ok) {
-      setError(userResult.message ?? "Nao foi possivel atualizar o nome.");
+      setError(userResult.message ?? "Não foi possível atualizar o nome.");
       return;
     }
 
@@ -66,62 +66,75 @@ export function ProfilePage() {
   };
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-3">
+    <div className="space-y-5 pb-24">
+      {/* Cabeçalho de Página Unificado */}
+      <div className="flex items-center gap-3">
         <BackButton fallbackPath={PATHS.app.dashboard} />
-      </div>
-      <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
-        Perfil
-      </p>
-      <h2 className="mt-1 text-2xl font-semibold text-slate-950">
-        Atualizar dados
-      </h2>
-      <p className="mt-2 text-sm text-slate-600">
-        Edite seu nome e peso atual usando apenas armazenamento local.
-      </p>
-
-      <form onSubmit={handleSubmit} className="mt-5 space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Nome
-          </label>
-          <input
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
-            placeholder="Seu nome"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Peso atual
-          </label>
-          <input
-            type="number"
-            step="0.1"
-            min="0"
-            value={currentWeight}
-            onChange={(event) => setCurrentWeight(event.target.value)}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
-            placeholder="Ex.: 82.5"
-          />
-        </div>
-
-        {error ? (
-          <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-            {error}
+          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+            Perfil
           </p>
-        ) : null}
+          <h2 className="text-2xl font-bold tracking-tight text-white">
+            Atualizar dados
+          </h2>
+        </div>
+      </div>
 
-        <button
-          type="submit"
-          disabled={!isFormValid}
-          className="w-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-4 py-3 text-sm font-semibold text-slate-950 transition enabled:hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          Salvar perfil
-        </button>
-      </form>
-    </section>
+      {/* Formulário do Atleta */}
+      <section className="rounded-2xl border border-slate-900 bg-slate-900/30 p-5 backdrop-blur-sm">
+        <p className="text-xs text-slate-400 leading-relaxed">
+          Edite seu nome de competidor e peso atual usando apenas armazenamento
+          local.
+        </p>
+
+        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+          {/* Campo: Nome */}
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-slate-400">
+              Nome Completo
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10"
+              placeholder="Seu nome"
+            />
+          </div>
+
+          {/* Campo: Peso */}
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-slate-400">
+              Peso Atual (kg)
+            </label>
+            <input
+              type="number"
+              step="0.1"
+              min="0"
+              value={currentWeight}
+              onChange={(event) => setCurrentWeight(event.target.value)}
+              className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 font-medium"
+              placeholder="Ex.: 82.5"
+            />
+          </div>
+
+          {/* Tratamento de Erros Visual */}
+          {error ? (
+            <p className="rounded-xl border border-rose-950 bg-rose-950/20 px-4 py-3 text-xs font-medium text-rose-400">
+              ⚠️ {error}
+            </p>
+          ) : null}
+
+          {/* Ação de Submissão */}
+          <button
+            type="submit"
+            disabled={!isFormValid}
+            className="w-full mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-950 transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40 shadow-md shadow-emerald-950/20"
+          >
+            Salvar perfil
+          </button>
+        </form>
+      </section>
+    </div>
   );
 }

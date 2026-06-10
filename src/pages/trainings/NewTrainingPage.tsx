@@ -28,7 +28,7 @@ export function NewTrainingPage() {
     event.preventDefault();
 
     if (!currentUserId) {
-      setError("Usuario nao autenticado.");
+      setError("Usuário não autenticado.");
       return;
     }
 
@@ -44,7 +44,7 @@ export function NewTrainingPage() {
       Number.isNaN(submissionsReceived) ||
       submissionsReceived < 0
     ) {
-      setError("Preencha os campos numericos corretamente.");
+      setError("Preencha os campos numéricos corretamente.");
       return;
     }
 
@@ -64,21 +64,21 @@ export function NewTrainingPage() {
   };
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-5 pb-24">
       <div className="flex items-center gap-3">
         <BackButton fallbackPath={PATHS.app.trainings} />
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
-            Novo
+          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+            Registro
           </p>
-          <h2 className="text-2xl font-semibold text-slate-950">Novo treino</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-white">Novo treino</h2>
         </div>
       </div>
 
       <TrainingForm
         title="Novo treino"
         submitLabel="Salvar treino"
-        subtitle="Registre a sessao com data automatica e acompanhe a evolucao."
+        subtitle="Registre a sessão com data automática e acompanhe a evolução."
         values={values}
         onChange={setValues}
         onSubmit={handleSubmit}

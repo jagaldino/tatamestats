@@ -3,19 +3,22 @@ import { PATHS } from "@/app/router/paths";
 
 export function EmptyTrainingsState() {
   return (
-    <section className="rounded-3xl border border-dashed border-emerald-200 bg-emerald-50 p-5 text-emerald-950 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.18em] text-emerald-700">
-        Historico vazio
+    <section className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/10 p-6 text-center backdrop-blur-sm">
+      <p className="text-[10px] uppercase tracking-[0.18em] text-emerald-400 font-bold">
+        Histórico vazio
       </p>
-      <h2 className="mt-2 text-xl font-semibold">Nenhum treino registrado</h2>
-      <p className="mt-2 text-sm text-emerald-900/80">
-        Crie seu primeiro treino para ver o historico por aqui.
+      <h2 className="mt-2 text-lg font-bold tracking-tight text-white">
+        Nenhum treino registrado
+      </h2>
+      <p className="mt-1 text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+        Monte sua rotina de consistência. Crie seu primeiro registro de treino
+        para mapear sua evolução.
       </p>
       <Link
         to={PATHS.app.trainingNew}
-        className="mt-4 inline-flex rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white"
+        className="mt-5 inline-flex rounded-xl bg-emerald-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-950 transition hover:bg-emerald-400 active:scale-95 shadow-md shadow-emerald-950/20"
       >
-        Novo treino
+        Começar Primeiro Treino
       </Link>
     </section>
   );

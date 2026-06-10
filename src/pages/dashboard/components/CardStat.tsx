@@ -1,15 +1,10 @@
-type CardStatProps = {
+// Exemplo de estrutura interna do seu CardStat para combinar com o tema escuro:
+interface CardStatProps {
   title: string;
   value: string;
   subtitle: string;
-  tone?: "default" | "success" | "warning";
-};
-
-const toneClasses = {
-  default: "from-white to-slate-50 border-slate-200",
-  success: "from-emerald-50 to-white border-emerald-200",
-  warning: "from-amber-50 to-white border-amber-200",
-} as const;
+  tone?: "success" | "warning" | "default";
+}
 
 export function CardStat({
   title,
@@ -17,15 +12,30 @@ export function CardStat({
   subtitle,
   tone = "default",
 }: CardStatProps) {
+  // Define cores de borda ou texto dinâmicas com base no status da categoria (peso)
+  const toneClasses = {
+    success: "border-emerald-500/30 bg-emerald-950/10 text-emerald-400",
+    warning: "border-amber-500/30 bg-amber-950/10 text-amber-400",
+    default: "border-slate-900 bg-slate-900/40 text-white",
+  };
+
   return (
-    <article
-      className={`rounded-3xl border bg-gradient-to-br p-4 shadow-sm ${toneClasses[tone]}`}
+    <div
+      className={`rounded-2xl border p-4 backdrop-blur-sm flex flex-col justify-between min-h-[130px] transition ${toneClasses[tone]}`}
     >
-      <p className="text-sm font-medium text-slate-600">{title}</p>
-      <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
-        {value}
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          {title}
+        </p>
+        <p
+          className={`mt-2 text-2xl font-bold tracking-tight ${tone === "default" ? "text-white" : ""}`}
+        >
+          {value}
+        </p>
+      </div>
+      <p className="mt-2 text-[11px] text-slate-500 leading-tight">
+        {subtitle}
       </p>
-      <p className="mt-2 text-sm leading-5 text-slate-500">{subtitle}</p>
-    </article>
+    </div>
   );
 }

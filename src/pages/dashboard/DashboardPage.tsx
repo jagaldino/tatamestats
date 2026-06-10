@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "@/app/router/paths";
-import { BackButton } from "@/shared/ui/BackButton";
 import {
   selectCurrentUser,
   useAuthStore,
@@ -20,40 +19,36 @@ export function DashboardPage() {
     stats.currentWeight > 0;
 
   return (
-    <div className="space-y-5 pb-6">
-      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-5 text-white shadow-xl shadow-slate-900/10">
-        <div className="flex items-start gap-3">
-          <BackButton
-            fallbackPath={PATHS.app.trainings}
-            className="bg-white/5 border-transparent text-white"
-          />
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-emerald-300">
-              Visao geral
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold leading-tight">
-              Bem-vindo{currentUser?.name ? `, ${currentUser.name}` : ""}
-            </h2>
-            <p className="mt-2 max-w-sm text-sm text-slate-300">
-              Acompanhe seus treinos, seu peso e seu status atual sem sair do
-              app.
-            </p>
-          </div>
+    <div className="space-y-5 pb-24">
+      {/* Banner de Boas-vindas Superior */}
+      <section className="overflow-hidden rounded-2xl border border-slate-900 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 p-5 text-white shadow-xl">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-400 font-bold">
+            Visão Geral
+          </p>
+          <h2 className="mt-1 text-2xl font-bold tracking-tight text-white">
+            Bem-vindo{currentUser?.name ? `, ${currentUser.name}` : ""}
+          </h2>
+          <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+            Acompanhe seus treinos, seu peso e seu status atual de categoria sem
+            sair do app.
+          </p>
         </div>
       </section>
 
       {!hasData ? <EmptyDashboardState /> : null}
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {/* Grid de Estatísticas */}
+      <section className="grid grid-cols-2 gap-4">
         <CardStat
-          title="Treinos no mes"
+          title="Treinos no mês"
           value={String(stats.monthlyTrainings)}
-          subtitle="Quantidade de treinos registrados no mes atual"
+          subtitle="Registrados no mês atual"
         />
         <CardStat
-          title="Finalizacoes aplicadas"
+          title="Finalizações"
           value={String(stats.monthlySubmissions)}
-          subtitle="Soma das finalizacoes aplicadas no mes atual"
+          subtitle="Aplicadas no mês atual"
         />
         <CardStat
           title="Peso atual"
@@ -62,46 +57,50 @@ export function DashboardPage() {
               ? `${stats.currentWeight.toFixed(1)} kg`
               : "--"
           }
-          subtitle="Ultimo peso salvo no perfil"
+          subtitle="Último peso salvo"
         />
         <CardStat
-          title="Status da categoria"
+          title="Categoria (100kg)"
           value={
             stats.isOverWeightLimit ? "Acima do limite" : "Dentro do limite"
           }
           subtitle={
             stats.isOverWeightLimit
-              ? "Reduza o peso para entrar na categoria"
-              : "Peso dentro do limite de 100kg"
+              ? "Reduza para o campeonato"
+              : "Peso alinhado e pronto"
           }
           tone={stats.isOverWeightLimit ? "warning" : "success"}
         />
       </section>
 
-      <section className="rounded-3xl border border-dashed border-slate-300 bg-white p-4 text-sm text-slate-600 shadow-sm">
+      {/* Caixa de Navegação Rápida (Estilizada para Dark Mode) */}
+      <section className="rounded-2xl border border-slate-900 bg-slate-900/30 p-5 text-sm backdrop-blur-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="font-medium text-slate-900">Navegacao rapida</p>
-            <p className="mt-1 text-sm text-slate-600">
-              O Dashboard esta pronto para evoluir com graficos e mais detalhes.
+            <p className="font-semibold text-white tracking-wide">
+              Navegação rápida
+            </p>
+            <p className="mt-1 text-xs text-slate-400 leading-relaxed">
+              O Dashboard está pronto para evoluir com gráficos de performance e
+              mais detalhes.
             </p>
           </div>
-          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+          <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/20">
             MVP
           </span>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
             to={PATHS.app.trainings}
-            className="rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+            className="rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 active:scale-95"
           >
-            Treinos
+            Ver Treinos
           </Link>
           <Link
             to={PATHS.app.profile}
-            className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-50"
+            className="rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 transition hover:bg-slate-800 active:scale-95"
           >
-            Perfil
+            Editar Perfil
           </Link>
         </div>
       </section>

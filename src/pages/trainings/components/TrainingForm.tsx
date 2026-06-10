@@ -24,32 +24,33 @@ export function TrainingForm({
   readOnlyDate = false,
 }: TrainingFormProps) {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
+    <section className="rounded-2xl border border-slate-900 bg-slate-900/30 p-5 backdrop-blur-sm">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
         {title}
       </p>
-      <h2 className="mt-1 text-2xl font-semibold text-slate-950">{title}</h2>
-      <p className="mt-2 text-sm text-slate-600">{subtitle}</p>
+      <p className="mt-1 text-sm text-slate-400 leading-relaxed">{subtitle}</p>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
+        {/* Campo: Data */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Data
+          <label className="mb-1.5 block text-xs font-semibold text-slate-400">
+            Data do rola
           </label>
           <input
             name="date"
             type="date"
             value={values.date}
             readOnly={readOnlyDate}
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2 read-only:cursor-not-allowed"
+            className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 read-only:cursor-not-allowed read-only:opacity-60"
             onChange={(event) =>
               onChange((current) => ({ ...current, date: event.target.value }))
             }
           />
         </div>
 
+        {/* Campo: Duração */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label className="mb-1.5 block text-xs font-semibold text-slate-400">
             Duração (minutos)
           </label>
           <input
@@ -64,34 +65,38 @@ export function TrainingForm({
                 durationMinutes: event.target.value,
               }))
             }
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
+            className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10"
             placeholder="Ex.: 90"
           />
         </div>
 
+        {/* Campo: Tipo (Gi / No-Gi) */}
         <div>
-          <p className="mb-2 block text-sm font-medium text-slate-700">Tipo</p>
+          <p className="mb-2 block text-xs font-semibold text-slate-400">
+            Tipo de treino
+          </p>
           <div className="grid grid-cols-2 gap-3">
             {([TrainingType.Gi, TrainingType.NoGi] as const).map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => onChange((current) => ({ ...current, type }))}
-                className={`rounded-2xl border px-4 py-3 text-sm font-semibold transition ${
+                className={`rounded-xl border py-3 text-xs font-bold uppercase tracking-wider transition active:scale-[0.98] ${
                   values.type === type
-                    ? "border-emerald-400 bg-emerald-50 text-emerald-800"
-                    : "border-slate-200 bg-slate-50 text-slate-700"
+                    ? "border-emerald-500 bg-emerald-500/10 text-emerald-400"
+                    : "border-slate-900 bg-slate-950/40 text-slate-400 hover:bg-slate-900/50"
                 }`}
               >
-                {type}
+                {type === "Gi" ? "🥋 Com Kimono" : "🤼‍♂️ No-Gi"}
               </button>
             ))}
           </div>
         </div>
 
+        {/* Campos: Finalizações em Grid */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-xs font-semibold text-slate-400">
               Finalizações aplicadas
             </label>
             <input
@@ -106,13 +111,13 @@ export function TrainingForm({
                   submissionsApplied: event.target.value,
                 }))
               }
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
+              className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-emerald-400 placeholder-slate-700 outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 font-semibold"
               placeholder="0"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
+            <label className="mb-1.5 block text-xs font-semibold text-slate-400">
               Finalizações sofridas
             </label>
             <input
@@ -127,15 +132,16 @@ export function TrainingForm({
                   submissionsReceived: event.target.value,
                 }))
               }
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
+              className="w-full rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-amber-500 placeholder-slate-700 outline-none transition focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10 font-semibold"
               placeholder="0"
             />
           </div>
         </div>
 
+        {/* Campo: Observações */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
-            Observações
+          <label className="mb-1.5 block text-xs font-semibold text-slate-400">
+            Observações e feedbacks do rola
           </label>
           <textarea
             name="notes"
@@ -143,21 +149,23 @@ export function TrainingForm({
             onChange={(event) =>
               onChange((current) => ({ ...current, notes: event.target.value }))
             }
-            rows={4}
-            className="w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none ring-emerald-400 transition focus:ring-2"
-            placeholder="Como foi o treino?"
+            rows={3}
+            className="w-full resize-none rounded-xl border border-slate-900 bg-slate-950/60 px-4 py-3 text-sm text-slate-300 placeholder-slate-600 outline-none transition focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 leading-relaxed"
+            placeholder="Mencionou alguma raspagem? Ajuste de lapela?"
           />
         </div>
 
+        {/* Caixa de Erro Interno */}
         {error ? (
-          <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
-            {error}
+          <p className="rounded-xl border border-rose-950 bg-rose-950/20 px-4 py-3 text-xs font-medium text-rose-400">
+            ⚠️ {error}
           </p>
         ) : null}
 
+        {/* Botão de Envio */}
         <button
           type="submit"
-          className="w-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:brightness-105"
+          className="w-full mt-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-950 transition hover:brightness-110 active:scale-[0.99] shadow-md shadow-emerald-950/20"
         >
           {submitLabel}
         </button>

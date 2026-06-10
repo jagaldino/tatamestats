@@ -43,9 +43,9 @@ export function TrainingEditPage() {
 
   if (!training || training.userId !== currentUserId) {
     return (
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-950">
-          Treino nao encontrado
+      <section className="rounded-2xl border border-slate-900 bg-slate-900/40 p-6 backdrop-blur-sm text-center">
+        <h2 className="text-xl font-bold text-white tracking-tight">
+          Treino não encontrado
         </h2>
       </section>
     );
@@ -66,7 +66,7 @@ export function TrainingEditPage() {
       Number.isNaN(submissionsReceived) ||
       submissionsReceived < 0
     ) {
-      setError("Preencha os campos numericos corretamente.");
+      setError("Preencha os campos numéricos corretamente.");
       return;
     }
 
@@ -87,7 +87,7 @@ export function TrainingEditPage() {
   };
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-5 pb-24">
       <div className="flex items-center gap-3">
         <BackButton
           fallbackPath={PATHS.app.trainingDetail.replace(
@@ -96,10 +96,10 @@ export function TrainingEditPage() {
           )}
         />
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-emerald-600">
-            Editar
+          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+            Modificação
           </p>
-          <h2 className="text-2xl font-semibold text-slate-950">
+          <h2 className="text-2xl font-bold tracking-tight text-white">
             Editar treino
           </h2>
         </div>
@@ -107,7 +107,7 @@ export function TrainingEditPage() {
 
       <TrainingForm
         title="Editar treino"
-        subtitle="Atualize os dados da sessao salva no app."
+        subtitle="Atualize os dados da sessão salva no app."
         submitLabel="Salvar alterações"
         values={values}
         onChange={setValues}
