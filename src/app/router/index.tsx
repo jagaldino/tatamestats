@@ -13,6 +13,7 @@ import { TrainingEditPage } from "@/pages/trainings/TrainingEditPage";
 import { TrainingHistoryPage } from "@/pages/trainings/TrainingHistoryPage";
 import { ProfilePage } from "@/pages/profile/ProfilePage";
 import { ScreenPlaceholder } from "@/shared/ui/organisms/ScreenPlaceholder";
+import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
 
 export const router = createBrowserRouter([
   {
@@ -85,7 +86,7 @@ export const router = createBrowserRouter([
   },
   {
     path: PATHS.notFound,
-    element: <ScreenPlaceholder title="Pagina nao encontrada" />,
+    element: <NotFoundPage />,
   },
   {
     path: "*",
