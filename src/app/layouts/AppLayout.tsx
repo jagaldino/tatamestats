@@ -29,7 +29,7 @@ export function AppLayout() {
       <header className="sticky top-0 z-20 border-b border-slate-900 bg-slate-950/80 px-4 py-4 backdrop-blur-md">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            {/* Avatar Provisório com a Inicial do Atleta */}
+            {/* Avatar Dinâmico */}
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 font-semibold text-white uppercase">
               {currentUser?.name?.charAt(0) ?? "A"}
             </div>
@@ -43,7 +43,7 @@ export function AppLayout() {
             </div>
           </div>
 
-          {/* Botão Sair Minimalista com Ícone */}
+          {/* Botão Sair Minimalista */}
           <button
             type="button"
             onClick={handleLogout}
@@ -55,17 +55,18 @@ export function AppLayout() {
         </div>
       </header>
 
-      {/* Conteúdo Principal (Páginas internas) */}
-      <main className="flex-1 p-4 pb-24"> {/* pb-24 garante que o conteúdo não fique escondido atrás do menu inferior */}
+      {/* Conteúdo Dinâmico (Páginas do Painel, Treinos, Peso e Perfil) */}
+      <main className="flex-1 p-4 pb-24">
         <Outlet />
       </main>
 
-      {/* Bottom Navigation Bar (Menu Inferior do PWA) */}
+      {/* Bottom Navigation Bar Unificada com as Rotas reais */}
       <nav className="fixed bottom-0 left-1/2 z-20 h-16 w-full max-w-md -translate-x-1/2 border-t border-slate-900 bg-slate-950/90 px-6 backdrop-blur-lg">
         <div className="flex h-full items-center justify-between">
           
+          {/* Aba: Painel Geral */}
           <NavLink 
-            to="/dashboard" // Ajuste para as suas rotas reais baseadas no PATHS
+            to={PATHS.app.dashboard} 
             className={({ isActive }) => 
               `flex flex-col items-center gap-1 text-xs font-medium transition ${isActive ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`
             }
@@ -74,8 +75,9 @@ export function AppLayout() {
             <span>Painel</span>
           </NavLink>
 
+          {/* Aba: Histórico de Treinos */}
           <NavLink 
-            to="/trainings" 
+            to={PATHS.app.trainings} 
             className={({ isActive }) => 
               `flex flex-col items-center gap-1 text-xs font-medium transition ${isActive ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`
             }
@@ -84,8 +86,9 @@ export function AppLayout() {
             <span>Treinos</span>
           </NavLink>
 
+          {/* Aba: Controle de Peso */}
           <NavLink 
-            to="/weight" 
+            to={PATHS.app.weight} 
             className={({ isActive }) => 
               `flex flex-col items-center gap-1 text-xs font-medium transition ${isActive ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`
             }
@@ -94,8 +97,9 @@ export function AppLayout() {
             <span>Peso</span>
           </NavLink>
 
+          {/* Aba: Dados do Perfil */}
           <NavLink 
-            to="/profile" 
+            to={PATHS.app.profile} 
             className={({ isActive }) => 
               `flex flex-col items-center gap-1 text-xs font-medium transition ${isActive ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`
             }
