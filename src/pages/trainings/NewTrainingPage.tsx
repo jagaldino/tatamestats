@@ -1,12 +1,12 @@
 import { FormEvent, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BackButton } from "@/shared/ui/BackButton";
 import { PATHS } from "@/app/router/paths";
 import { useAuthStore } from "@/domains/auth/store/useAuthStore";
 import { useTrainingStore } from "@/domains/training/store/useTrainingStore";
 import { TrainingForm } from "@/pages/trainings/components/TrainingForm";
 import type { TrainingFormValues } from "@/pages/trainings/types";
 import { createLocalDateISO } from "@/shared/utils/date";
+import { TrainingType } from "@/shared/types/domain";
 
 export function NewTrainingPage() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export function NewTrainingPage() {
   const [values, setValues] = useState<TrainingFormValues>({
     date: today,
     durationMinutes: "",
-    type: "Gi",
+    type: TrainingType.Gi,
     submissionsApplied: "",
     submissionsReceived: "",
     notes: "",
@@ -65,14 +65,13 @@ export function NewTrainingPage() {
 
   return (
     <div className="space-y-5 pb-24">
-      <div className="flex items-center gap-3">
-        <BackButton fallbackPath={PATHS.app.trainings} />
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
-            Registro
-          </p>
-          <h2 className="text-2xl font-bold tracking-tight text-white">Novo treino</h2>
-        </div>
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+          Registro
+        </p>
+        <h2 className="text-2xl font-bold tracking-tight text-white">
+          Novo treino
+        </h2>
       </div>
 
       <TrainingForm

@@ -7,7 +7,6 @@ import {
 } from "@/domains/training/store/useTrainingStore";
 import { formatDateBR } from "@/shared/utils/date";
 import { useState } from "react";
-import { BackButton } from "@/shared/ui/BackButton";
 
 export function TrainingDetailPage() {
   const navigate = useNavigate();
@@ -29,12 +28,6 @@ export function TrainingDetailPage() {
           O registro solicitado pode ter sido removido ou não pertence ao
           usuário atual.
         </p>
-        <Link
-          to={PATHS.app.trainings}
-          className="mt-5 inline-flex rounded-xl bg-slate-900 border border-slate-800 px-5 py-2.5 text-xs font-semibold text-slate-200 transition hover:bg-slate-800"
-        >
-          Voltar ao histórico
-        </Link>
       </section>
     );
   }
@@ -47,9 +40,6 @@ export function TrainingDetailPage() {
   return (
     <div className="space-y-5 pb-24">
       <section className="rounded-2xl border border-slate-900 bg-slate-900/30 p-5 backdrop-blur-sm">
-        <div className="mb-4">
-          <BackButton fallbackPath={PATHS.app.trainings} />
-        </div>
         <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
           Detalhes do treino
         </p>

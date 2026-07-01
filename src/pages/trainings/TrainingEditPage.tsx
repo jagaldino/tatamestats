@@ -8,7 +8,7 @@ import {
 } from "@/domains/training/store/useTrainingStore";
 import { TrainingForm } from "@/pages/trainings/components/TrainingForm";
 import type { TrainingFormValues } from "@/pages/trainings/types";
-import { BackButton } from "@/shared/ui/BackButton";
+import { TrainingType } from "@/shared/types/domain";
 
 export function TrainingEditPage() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export function TrainingEditPage() {
   const [values, setValues] = useState<TrainingFormValues>({
     date: "",
     durationMinutes: "",
-    type: "Gi",
+    type: TrainingType.Gi,
     submissionsApplied: "",
     submissionsReceived: "",
     notes: "",
@@ -88,21 +88,13 @@ export function TrainingEditPage() {
 
   return (
     <div className="space-y-5 pb-24">
-      <div className="flex items-center gap-3">
-        <BackButton
-          fallbackPath={PATHS.app.trainingDetail.replace(
-            ":trainingId",
-            training.id,
-          )}
-        />
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
-            Modificação
-          </p>
-          <h2 className="text-2xl font-bold tracking-tight text-white">
-            Editar treino
-          </h2>
-        </div>
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+          Modificação
+        </p>
+        <h2 className="text-2xl font-bold tracking-tight text-white">
+          Editar treino
+        </h2>
       </div>
 
       <TrainingForm

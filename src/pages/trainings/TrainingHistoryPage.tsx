@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { BackButton } from "@/shared/ui/BackButton";
 import { PATHS } from "@/app/router/paths";
 import { useAuthStore } from "@/domains/auth/store/useAuthStore";
 import {
@@ -22,16 +21,13 @@ export function TrainingHistoryPage() {
   return (
     <div className="space-y-5 pb-24">
       <header className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <BackButton fallbackPath={PATHS.app.dashboard} />
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
-              Histórico
-            </p>
-            <h2 className="text-2xl font-bold tracking-tight text-white">
-              Treinos
-            </h2>
-          </div>
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+            Histórico
+          </p>
+          <h2 className="text-2xl font-bold tracking-tight text-white">
+            Treinos
+          </h2>
         </div>
         <Link
           to={PATHS.app.trainingNew}

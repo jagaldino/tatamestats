@@ -1,6 +1,4 @@
 import { FormEvent, useMemo, useState } from "react";
-import { BackButton } from "@/shared/ui/BackButton";
-import { PATHS } from "@/app/router/paths";
 import { useAuthStore } from "@/domains/auth/store/useAuthStore";
 import { Camera, User } from "lucide-react";
 
@@ -48,16 +46,13 @@ export function ProfilePage() {
   return (
     <div className="space-y-5 pb-24">
       {/* Cabeçalho de Página */}
-      <div className="flex items-center gap-3">
-        <BackButton fallbackPath={PATHS.app.dashboard} />
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
-            Perfil
-          </p>
-          <h2 className="text-2xl font-bold tracking-tight text-white">
-            Atualizar dados
-          </h2>
-        </div>
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-400 font-bold">
+          Perfil
+        </p>
+        <h2 className="text-2xl font-bold tracking-tight text-white">
+          Atualizar dados
+        </h2>
       </div>
 
       {/* Card Principal de Configuração */}

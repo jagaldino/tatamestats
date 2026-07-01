@@ -22,7 +22,7 @@ export function TrainingCard({ training }: TrainingCardProps) {
             {formatDateBR(training.date)}
           </h3>
         </div>
-        <span className="rounded-lg bg-slate-950/60 border border-slate-850 px-2.5 py-1 text-xs font-semibold text-slate-400">
+        <span className="rounded-lg bg-slate-950/60 border border-slate-800 px-2.5 py-1 text-xs font-semibold text-slate-400">
           {training.durationMinutes} min
         </span>
       </div>
