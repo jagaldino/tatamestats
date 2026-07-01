@@ -14,6 +14,7 @@ import { TrainingHistoryPage } from "@/pages/trainings/TrainingHistoryPage";
 import { ProfilePage } from "@/pages/profile/ProfilePage";
 import { ScreenPlaceholder } from "@/shared/ui/organisms/ScreenPlaceholder";
 import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
+import { WeightPage } from "@/pages/weight/WeightPage";
 
 export const router = createBrowserRouter([
   {
@@ -69,12 +70,12 @@ export const router = createBrowserRouter([
             element: <ProfilePage />,
           },
           {
-            path: PATHS.app.weight,
-            element: <ScreenPlaceholder title="Controle de peso" />,
-          },
-          {
             path: PATHS.app.submissionStats,
             element: <ScreenPlaceholder title="Estatisticas de finalizacoes" />,
+          },
+          {
+            path: PATHS.app.weight,
+            element: <WeightPage />,
           },
           {
             path: "/app/*",
