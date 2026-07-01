@@ -4,6 +4,7 @@ import { PublicLayout } from "@/app/layouts/PublicLayout";
 import { RequireAuth } from "@/app/router/guards/RequireAuth";
 import { RequireGuest } from "@/app/router/guards/RequireGuest";
 import { PATHS } from "@/app/router/paths";
+import { LandingPage } from "@/pages/public/LandingPage";
 import { DashboardPage } from "@/pages/dashboard/DashboardPage";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
@@ -19,7 +20,7 @@ import { WeightPage } from "@/pages/weight/WeightPage";
 export const router = createBrowserRouter([
   {
     path: PATHS.root,
-    element: <Navigate to={PATHS.auth.login} replace />,
+    element: <LandingPage />,
   },
   {
     element: <RequireGuest />,

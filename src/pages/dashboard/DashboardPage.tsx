@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import { PATHS } from "@/app/router/paths";
 import {
   selectCurrentUser,
   useAuthStore,
