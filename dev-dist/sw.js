@@ -78,28 +78,31 @@ define(['./workbox-d4222c5a'], (function (workbox) { 'use strict';
    */
   workbox.precacheAndRoute([{
     "url": "/index.html",
-    "revision": "0.cd47o4jqmc"
+    "revision": "0.rase6ca4deo"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("/index.html"), {
     allowlist: [/^\/$/]
   }));
-  workbox.registerRoute(({
-    request
-  }) => request.destination === "document", new workbox.NetworkFirst({
+  workbox.registerRoute(function (_a) {
+    var request = _a.request;
+    return request.destination === "document";
+  }, new workbox.NetworkFirst({
     "cacheName": "tatamestats-pages",
     "networkTimeoutSeconds": 3,
     plugins: []
   }), 'GET');
-  workbox.registerRoute(({
-    request
-  }) => ["style", "script", "worker"].includes(request.destination), new workbox.StaleWhileRevalidate({
+  workbox.registerRoute(function (_a) {
+    var request = _a.request;
+    return ["style", "script", "worker"].includes(request.destination);
+  }, new workbox.StaleWhileRevalidate({
     "cacheName": "tatamestats-assets",
     plugins: []
   }), 'GET');
-  workbox.registerRoute(({
-    request
-  }) => request.destination === "image", new workbox.CacheFirst({
+  workbox.registerRoute(function (_a) {
+    var request = _a.request;
+    return request.destination === "image";
+  }, new workbox.CacheFirst({
     "cacheName": "tatamestats-images",
     plugins: []
   }), 'GET');

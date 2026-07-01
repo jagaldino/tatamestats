@@ -6,12 +6,18 @@ export function createLocalDateISO(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export function formatDateBR(dateIso: string): string {
-  const parsed = new Date(dateIso);
+export function formatDateBR(dateISO: string): string {
+  if (!dateISO) return "";
 
-  return parsed.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  if (dateISO.includes("-")) {
+    const [year, month, day] = dateISO.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
+  const parsed = new Date(dateISO);
+  const day = String(parsed.getDate()).padStart(2, "0");
+  const month = String(parsed.getMonth() + 1).padStart(2, "0");
+  const year = parsed.getFullYear();
+
+  return `${day}/${month}/${year}`;
 }
